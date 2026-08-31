@@ -13,7 +13,12 @@ const ENV_API_URL = (typeof import.meta !== 'undefined' && (import.meta as any).
 const DEFAULT_API_URL = 'https://shivam-web.onrender.com';
 
 const isLocalBrowser = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && !(window as any).Capacitor;
-export const API_BASE_URL = (ENV_API_URL || (isLocalBrowser ? '' : DEFAULT_API_URL)).replace(/\/+$/, '');
+
+// API_BASE_URL: empty string on production browser (same-origin), explicit on local/Capacitor
+export const API_BASE_URL = (ENV_API_URL || (isLocalBrowser ? 'http://localhost:8000' : '')).replace(/\/+$/, '');
+
+// SOCKET_URL: always explicit (socket.io cannot use empty-string origin)
+export const SOCKET_URL = (ENV_API_URL || (isLocalBrowser ? 'http://localhost:8000' : DEFAULT_API_URL)).replace(/\/+$/, '');
 
 class ApiService {
   // ==========================================================

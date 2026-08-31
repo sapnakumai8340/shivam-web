@@ -9,7 +9,7 @@ import {
   ChatMessage
 } from '../types';
 import { LiveTelemetrySnapshot } from './realtimeStore';
-import { API_BASE_URL } from './apiService';
+import { API_BASE_URL, SOCKET_URL } from './apiService';
 
 class SocketService {
   private socket: Socket | null = null;
@@ -25,7 +25,7 @@ class SocketService {
     }
 
     // Connect to backend origin explicitly (needed for Capacitor APKs)
-    this.socket = io(API_BASE_URL, {
+    this.socket = io(SOCKET_URL, {
       auth: { userId: localStorage.getItem('apex_current_user_id') || 'APX-9942' },
       transports: ['websocket', 'polling'],
       reconnectionAttempts: 10,
