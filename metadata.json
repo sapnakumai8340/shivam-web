@@ -1,0 +1,6 @@
+{
+  "name": "Kheltantra Performance",
+  "description": "Elite athletic performance ecosystem featuring biomechanical body scans, tactical tape analysis, match scheduling, and AI performance assistant.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

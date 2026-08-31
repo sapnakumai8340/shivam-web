@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">kheltantra</string>
+    <string name="title_activity_main">kheltantra</string>
+    <string name="package_name">com.kheltantra.pro</string>
+    <string name="custom_url_scheme">com.kheltantra.pro</string>
+</resources>
