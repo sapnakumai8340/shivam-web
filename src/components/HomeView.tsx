@@ -160,44 +160,6 @@ export const HomeView: React.FC<HomeViewProps> = ({
         )}
       </section>
 
-      {/* 2. HERO SPLASH HEADER BANNER */}
-      <div className="relative bg-gradient-to-br from-[#151c24] via-[#0e141c] to-[#080d12] border border-slate-800/90 rounded-3xl p-6 sm:p-8 shadow-2xl overflow-hidden text-center">
-        {/* Ambient Stadium Glows */}
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#ff5500]/15 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute -bottom-20 right-0 w-64 h-64 bg-indigo-600/10 rounded-full blur-[90px] pointer-events-none" />
-
-        {/* Brand Tagline & Logo */}
-        <div className="relative z-10 flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#ff5500]/15 border border-[#ff5500]/30 text-[#ff5500] text-[11px] font-black uppercase tracking-widest mb-3 shadow-[0_0_15px_rgba(255,85,0,0.2)]">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>KHELTANTRA SPORTS PLATFORM</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl font-black italic tracking-wide text-white uppercase drop-shadow-[0_2px_15px_rgba(255,85,0,0.3)]">
-            <span className="text-[#ff5500]">ELITE</span>
-          </h1>
-
-          <p className="text-xs sm:text-sm font-semibold text-slate-300 max-w-lg mx-auto mt-2 leading-relaxed">
-            The Authoritative Multi-Sport Performance, Community Feed & Tactical Intelligence Network.
-          </p>
-
-          {/* Sports Supported Badges */}
-          <div className="flex items-center justify-center gap-2 mt-4 flex-wrap text-xs font-bold text-slate-300">
-            <span className="px-3 py-1 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-1.5 shadow-sm">
-              ⚽ <span>Football</span>
-            </span>
-            <span className="px-3 py-1 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-1.5 shadow-sm">
-              🏏 <span>Cricket</span>
-            </span>
-            <span className="px-3 py-1 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-1.5 shadow-sm">
-              🏐 <span>Volleyball</span>
-            </span>
-            <span className="px-3 py-1 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center gap-1.5 shadow-sm">
-              🏀 <span>Basketball</span>
-            </span>
-          </div>
-        </div>
-      </div>
 
       {/* 2. AUTHENTICATED USER WELCOME CAPSULE */}
       <div className="bg-[#0e141c] border border-slate-800/90 rounded-3xl p-4 sm:p-5 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
