@@ -2,6 +2,49 @@ import React, { useState } from 'react';
 import { X, UserPlus, UserCheck, Heart, MessageCircle, Play, Trophy, Shield, Zap, Activity, CheckCircle2, Share2, Grid, Film, Sparkles } from 'lucide-react';
 import { AthleteProfile, HighlightVideo, SocialPost, TapeAnalysis } from '../types';
 
+export const getPositionBadge = (position: string) => {
+  const pos = (position || '').toUpperCase().trim();
+  let badgeStyle = "bg-slate-900 border border-slate-700/80 text-slate-300";
+  let icon = "🏃";
+  
+  if (['FWD', 'ST', 'LW', 'RW', 'STRIKER', 'WING'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-rose-950/80 border border-rose-700/60 text-rose-300";
+    icon = "⚡";
+  } else if (['MID', 'CM', 'AM', 'DM', 'LM', 'RM', 'MIDFIELDER'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-sky-950/80 border border-sky-700/60 text-sky-300";
+    icon = "🎯";
+  } else if (['DEF', 'CB', 'LB', 'RB', 'DEFENDER'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-emerald-950/80 border border-emerald-700/60 text-emerald-300";
+    icon = "🛡️";
+  } else if (['GK', 'GOALKEEPER', 'KEEPER'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-amber-950/80 border border-amber-700/60 text-amber-300";
+    icon = "🧤";
+  } else if (['BATS', 'BAT', 'BATSMAN'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-yellow-950/80 border border-yellow-700/60 text-yellow-300";
+    icon = "🏏";
+  } else if (['BOWL', 'BOWLER', 'PACER', 'SPINNER'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-purple-950/80 border border-purple-700/60 text-purple-300";
+    icon = "🥎";
+  } else if (['AR', 'ALL-ROUNDER', 'ALLROUNDER'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-indigo-950/80 border border-indigo-700/60 text-indigo-300";
+    icon = "🔄";
+  } else if (['WK', 'WICKETKEEPER'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-orange-950/80 border border-orange-700/60 text-orange-300";
+    icon = "🧤";
+  } else if (['STAFF', 'COACH'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-violet-950/80 border border-violet-700/60 text-violet-300";
+    icon = "📋";
+  }
+
+  return (
+    <span className={`inline-flex items-center gap-1 text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider ${badgeStyle}`}>
+      <span>{icon}</span>
+      <span>{pos}</span>
+    </span>
+  );
+};
+
+
 interface PlayerProfileModalProps {
   isOpen: boolean;
   athlete: AthleteProfile;
@@ -128,14 +171,15 @@ export const PlayerProfileModal: React.FC<PlayerProfileModalProps> = ({
 
           {/* Name & Bio Details */}
           <div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1.5 flex-wrap">
               <h1 className="text-sm sm:text-base font-black text-white uppercase tracking-tight">
                 {athlete.name}
               </h1>
               <CheckCircle2 className="w-3.5 h-3.5 text-[#00e5a3] fill-[#00e5a3]/20" />
+              {getPositionBadge(athlete.position)}
             </div>
-            <div className="text-[11px] text-[#ff5500] font-bold">
-              {athlete.role} • {athlete.position} | {athlete.club || ' Premier Squad'}
+            <div className="text-[11px] text-[#ff5500] font-bold mt-1">
+              {athlete.role} | {athlete.club || ' Premier Squad'}
             </div>
 
             {/* Sport Speciality Pill */}

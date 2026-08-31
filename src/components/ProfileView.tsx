@@ -29,6 +29,49 @@ import {
 } from 'lucide-react';
 import { AthleteProfile, HighlightVideo, TapeAnalysis, MatchRecord, UserRole } from '../types';
 
+export const getPositionBadge = (position: string) => {
+  const pos = (position || '').toUpperCase().trim();
+  let badgeStyle = "bg-slate-900 border border-slate-700/80 text-slate-300";
+  let icon = "🏃";
+  
+  if (['FWD', 'ST', 'LW', 'RW', 'STRIKER', 'WING'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-rose-950/80 border border-rose-700/60 text-rose-300";
+    icon = "⚡";
+  } else if (['MID', 'CM', 'AM', 'DM', 'LM', 'RM', 'MIDFIELDER'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-sky-950/80 border border-sky-700/60 text-sky-300";
+    icon = "🎯";
+  } else if (['DEF', 'CB', 'LB', 'RB', 'DEFENDER'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-emerald-950/80 border border-emerald-700/60 text-emerald-300";
+    icon = "🛡️";
+  } else if (['GK', 'GOALKEEPER', 'KEEPER'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-amber-950/80 border border-amber-700/60 text-amber-300";
+    icon = "🧤";
+  } else if (['BATS', 'BAT', 'BATSMAN'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-yellow-950/80 border border-yellow-700/60 text-yellow-300";
+    icon = "🏏";
+  } else if (['BOWL', 'BOWLER', 'PACER', 'SPINNER'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-purple-950/80 border border-purple-700/60 text-purple-300";
+    icon = "🥎";
+  } else if (['AR', 'ALL-ROUNDER', 'ALLROUNDER'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-indigo-950/80 border border-indigo-700/60 text-indigo-300";
+    icon = "🔄";
+  } else if (['WK', 'WICKETKEEPER'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-orange-950/80 border border-orange-700/60 text-orange-300";
+    icon = "🧤";
+  } else if (['STAFF', 'COACH'].some(x => pos.includes(x))) {
+    badgeStyle = "bg-violet-950/80 border border-violet-700/60 text-violet-300";
+    icon = "📋";
+  }
+
+  return (
+    <span className={`inline-flex items-center gap-1 text-[9px] font-black px-2 py-0.5 rounded-md uppercase tracking-wider ${badgeStyle}`}>
+      <span>{icon}</span>
+      <span>{pos}</span>
+    </span>
+  );
+};
+
+
 interface ProfileViewProps {
   athlete: AthleteProfile;
   role: UserRole;
@@ -167,8 +210,9 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
             </>
           ) : (
             <>
+              {getPositionBadge(athlete.position)}
               <span className="bg-slate-900 border border-slate-700/80 text-slate-300 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                {athlete.position} • {athlete.role || 'ATHLETE'}
+                {athlete.role || 'ATHLETE'}
               </span>
               <span
                 className={`flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider ${athlete.status === 'ACTIVE'
@@ -352,14 +396,15 @@ export const ProfileView: React.FC<ProfileViewProps> = ({
                     referrerPolicy="no-referrer"
                   />
                   <div className="min-w-0">
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 flex-wrap">
                       <p className="text-xs font-black text-white truncate">{pl.name}</p>
-                      <span className="text-[9px] font-mono text-[#ff5500] font-bold shrink-0">
+                      <span className="text-[9px] font-mono text-[#ff5500] font-bold shrink-0 mr-1.5">
                         #{pl.number}
                       </span>
+                      {getPositionBadge(pl.position)}
                     </div>
-                    <p className="text-[10px] text-slate-400 font-semibold truncate">
-                      {pl.position} • {pl.club || 'Premier Squad'}
+                    <p className="text-[10px] text-slate-400 font-semibold truncate mt-0.5">
+                      {pl.club || 'Premier Squad'}
                     </p>
                   </div>
                 </div>
