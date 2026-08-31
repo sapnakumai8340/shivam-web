@@ -6,18 +6,16 @@ import {
 } from '../types';
 
 
-// IMPORTANT: Vite only exposes VITE_* variables from .env files in the project root.
-// Never fall back to window.location.origin inside a Capacitor APK: that points to the
-// WebView origin, not the Express backend.
+
 const ENV_API_URL = (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_API_URL) as string | undefined;
 const DEFAULT_API_URL = 'https://shivam-web.onrender.com';
 
 const isLocalBrowser = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && !(window as any).Capacitor;
 
-// API_BASE_URL: empty string on production browser (same-origin), explicit on local/Capacitor
+
 export const API_BASE_URL = (ENV_API_URL || (isLocalBrowser ? 'http://localhost:8000' : '')).replace(/\/+$/, '');
 
-// SOCKET_URL: always explicit (socket.io cannot use empty-string origin)
+
 export const SOCKET_URL = (ENV_API_URL || (isLocalBrowser ? 'http://localhost:8000' : DEFAULT_API_URL)).replace(/\/+$/, '');
 
 class ApiService {
@@ -61,7 +59,7 @@ class ApiService {
     return query ? `${url}?${query}` : url;
   }
 
-  
+
   private async parseResponse<T>(
     res: Response
   ): Promise<T> {
@@ -92,8 +90,7 @@ class ApiService {
         .slice(0, 200);
 
       throw new Error(
-        `Server returned ${res.status} non-JSON response${
-          preview ? `: ${preview}` : ''
+        `Server returned ${res.status} non-JSON response${preview ? `: ${preview}` : ''
         }`
       );
     }
@@ -103,8 +100,8 @@ class ApiService {
 
       throw new Error(
         errorData?.error ||
-          errorData?.message ||
-          `Request failed with status ${res.status}`
+        errorData?.message ||
+        `Request failed with status ${res.status}`
       );
     }
 
@@ -724,10 +721,10 @@ class ApiService {
     message: string;
     userId?: string;
     mode?:
-      | 'tactics'
-      | 'biomechanics'
-      | 'conditioning'
-      | 'nutrition';
+    | 'tactics'
+    | 'biomechanics'
+    | 'conditioning'
+    | 'nutrition';
     history?: Array<{
       sender: 'user' | 'apex';
       text: string;

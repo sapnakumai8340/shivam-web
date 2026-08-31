@@ -250,21 +250,23 @@ export const HomeView: React.FC<HomeViewProps> = ({
           <span className="text-[10px] font-mono text-slate-500 font-bold">1-TAP ACCESS</span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Tile 1: Performance Analytics */}
           <div
             onClick={onNavigateToPerformance}
-            className="p-5 rounded-3xl bg-[#0e141c] border border-slate-800 hover:border-[#ff5500]/60 hover:bg-slate-800/30 cursor-pointer transition-all shadow-lg group space-y-2.5 relative overflow-hidden"
+            className="relative h-44 rounded-3xl overflow-hidden border border-slate-800 hover:border-[#ff5500]/60 cursor-pointer transition-all shadow-lg group flex flex-col justify-end p-5"
           >
-            <div className="w-10 h-10 rounded-2xl bg-[#ff5500]/15 text-[#ff5500] flex items-center justify-center border border-[#ff5500]/30 group-hover:scale-110 transition-transform">
-              <Activity className="w-5 h-5 stroke-[2.5]" />
-            </div>
-            <div>
-              <h4 className="text-sm font-black text-white group-hover:text-[#ff5500] transition-colors flex items-center justify-between">
-                <span>Performance Analytics</span>
-                <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-white transition-transform group-hover:translate-x-1" />
-              </h4>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+            <img src="/tile_performance.jpg" alt="Performance Analytics" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+            <div className="relative z-10 space-y-1">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-black text-white group-hover:text-[#ff5500] transition-colors flex items-center gap-1.5">
+                  <Activity className="w-4 h-4 text-[#ff5500]" />
+                  <span>Performance Analytics</span>
+                </h4>
+                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-transform group-hover:translate-x-1" />
+              </div>
+              <p className="text-[10px] text-slate-200 leading-relaxed line-clamp-2">
                 Real database metrics, training session durations & match stat tracking for all sports.
               </p>
             </div>
@@ -273,17 +275,19 @@ export const HomeView: React.FC<HomeViewProps> = ({
           {/* Tile 2: Community Social Feed */}
           <div
             onClick={onNavigateToFeed || onNavigateToPerformance}
-            className="p-5 rounded-3xl bg-[#0e141c] border border-slate-800 hover:border-pink-500/60 hover:bg-slate-800/30 cursor-pointer transition-all shadow-lg group space-y-2.5 relative overflow-hidden"
+            className="relative h-44 rounded-3xl overflow-hidden border border-slate-800 hover:border-pink-500/60 cursor-pointer transition-all shadow-lg group flex flex-col justify-end p-5"
           >
-            <div className="w-10 h-10 rounded-2xl bg-pink-500/15 text-pink-400 flex items-center justify-center border border-pink-500/30 group-hover:scale-110 transition-transform">
-              <Rss className="w-5 h-5 stroke-[2.5]" />
-            </div>
-            <div>
-              <h4 className="text-sm font-black text-white group-hover:text-pink-400 transition-colors flex items-center justify-between">
-                <span>Community Feed</span>
-                <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-white transition-transform group-hover:translate-x-1" />
-              </h4>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+            <img src="/tile_community.jpg" alt="Community Feed" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+            <div className="relative z-10 space-y-1">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-black text-white group-hover:text-pink-400 transition-colors flex items-center gap-1.5">
+                  <Rss className="w-4 h-4 text-pink-400" />
+                  <span>Community Feed</span>
+                </h4>
+                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-transform group-hover:translate-x-1" />
+              </div>
+              <p className="text-[10px] text-slate-200 leading-relaxed line-clamp-2">
                 Post match videos, share training reels, like and comment with fellow athletes.
               </p>
             </div>
@@ -292,17 +296,19 @@ export const HomeView: React.FC<HomeViewProps> = ({
           {/* Tile 3: AI Tactician & Coach */}
           <div
             onClick={onNavigateToChatbot || onNavigateToPerformance}
-            className="p-5 rounded-3xl bg-[#0e141c] border border-slate-800 hover:border-sky-500/60 hover:bg-slate-800/30 cursor-pointer transition-all shadow-lg group space-y-2.5 relative overflow-hidden"
+            className="relative h-44 rounded-3xl overflow-hidden border border-slate-800 hover:border-sky-500/60 cursor-pointer transition-all shadow-lg group flex flex-col justify-end p-5"
           >
-            <div className="w-10 h-10 rounded-2xl bg-sky-500/15 text-sky-400 flex items-center justify-center border border-sky-500/30 group-hover:scale-110 transition-transform">
-              <Bot className="w-5 h-5 stroke-[2.5]" />
-            </div>
-            <div>
-              <h4 className="text-sm font-black text-white group-hover:text-sky-400 transition-colors flex items-center justify-between">
-                <span>AI Tactics & Coach</span>
-                <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-white transition-transform group-hover:translate-x-1" />
-              </h4>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+            <img src="/tile_ai_coach.jpg" alt="AI Tactics & Coach" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+            <div className="relative z-10 space-y-1">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-black text-white group-hover:text-sky-400 transition-colors flex items-center gap-1.5">
+                  <Bot className="w-4 h-4 text-sky-400" />
+                  <span>AI Tactics & Coach</span>
+                </h4>
+                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-transform group-hover:translate-x-1" />
+              </div>
+              <p className="text-[10px] text-slate-200 leading-relaxed line-clamp-2">
                 Get intelligent training drills, recovery advice, and tactical match formation guidance.
               </p>
             </div>
@@ -311,17 +317,19 @@ export const HomeView: React.FC<HomeViewProps> = ({
           {/* Tile 4: Match Fixtures & Scheduling */}
           <div
             onClick={onNavigateToSchedule}
-            className="p-5 rounded-3xl bg-[#0e141c] border border-slate-800 hover:border-amber-500/60 hover:bg-slate-800/30 cursor-pointer transition-all shadow-lg group space-y-2.5 relative overflow-hidden"
+            className="relative h-44 rounded-3xl overflow-hidden border border-slate-800 hover:border-amber-500/60 cursor-pointer transition-all shadow-lg group flex flex-col justify-end p-5"
           >
-            <div className="w-10 h-10 rounded-2xl bg-amber-500/15 text-amber-400 flex items-center justify-center border border-amber-500/30 group-hover:scale-110 transition-transform">
-              <Calendar className="w-5 h-5 stroke-[2.5]" />
-            </div>
-            <div>
-              <h4 className="text-sm font-black text-white group-hover:text-amber-400 transition-colors flex items-center justify-between">
-                <span>Fixture Schedule</span>
-                <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-white transition-transform group-hover:translate-x-1" />
-              </h4>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+            <img src="/tile_schedule.jpg" alt="Fixture Schedule" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+            <div className="relative z-10 space-y-1">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-black text-white group-hover:text-amber-400 transition-colors flex items-center gap-1.5">
+                  <Calendar className="w-4 h-4 text-amber-400" />
+                  <span>Fixture Schedule</span>
+                </h4>
+                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-transform group-hover:translate-x-1" />
+              </div>
+              <p className="text-[10px] text-slate-200 leading-relaxed line-clamp-2">
                 Upcoming league fixtures, opponent analysis, starting XI lineups & match countdown.
               </p>
             </div>
@@ -330,17 +338,19 @@ export const HomeView: React.FC<HomeViewProps> = ({
           {/* Tile 5: Player Profile & Highlights */}
           <div
             onClick={onNavigateToProfile}
-            className="p-5 rounded-3xl bg-[#0e141c] border border-slate-800 hover:border-emerald-500/60 hover:bg-slate-800/30 cursor-pointer transition-all shadow-lg group space-y-2.5 relative overflow-hidden"
+            className="relative h-44 rounded-3xl overflow-hidden border border-slate-800 hover:border-emerald-500/60 cursor-pointer transition-all shadow-lg group flex flex-col justify-end p-5"
           >
-            <div className="w-10 h-10 rounded-2xl bg-emerald-500/15 text-emerald-400 flex items-center justify-center border border-emerald-500/30 group-hover:scale-110 transition-transform">
-              <User className="w-5 h-5 stroke-[2.5]" />
-            </div>
-            <div>
-              <h4 className="text-sm font-black text-white group-hover:text-emerald-400 transition-colors flex items-center justify-between">
-                <span>Athlete Profile</span>
-                <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-white transition-transform group-hover:translate-x-1" />
-              </h4>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+            <img src="/tile_profile.jpg" alt="Athlete Profile" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+            <div className="relative z-10 space-y-1">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-black text-white group-hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                  <User className="w-4 h-4 text-emerald-400" />
+                  <span>Athlete Profile</span>
+                </h4>
+                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-transform group-hover:translate-x-1" />
+              </div>
+              <p className="text-[10px] text-slate-200 leading-relaxed line-clamp-2">
                 Edit biography, upload highlight videos, view match milestones and bio.
               </p>
             </div>
@@ -349,17 +359,19 @@ export const HomeView: React.FC<HomeViewProps> = ({
           {/* Tile 6: Academy & Video Masterclasses */}
           <div
             onClick={onNavigateToCourses || onNavigateToPerformance}
-            className="p-5 rounded-3xl bg-[#0e141c] border border-slate-800 hover:border-[#ff5500]/60 hover:bg-slate-800/30 cursor-pointer transition-all shadow-lg group space-y-2.5 relative overflow-hidden"
+            className="relative h-44 rounded-3xl overflow-hidden border border-slate-800 hover:border-[#ff5500]/60 cursor-pointer transition-all shadow-lg group flex flex-col justify-end p-5"
           >
-            <div className="w-10 h-10 rounded-2xl bg-[#ff5500]/15 text-[#ff5500] flex items-center justify-center border border-[#ff5500]/30 group-hover:scale-110 transition-transform">
-              <GraduationCap className="w-5 h-5 stroke-[2.5]" />
-            </div>
-            <div>
-              <h4 className="text-sm font-black text-white group-hover:text-[#ff5500] transition-colors flex items-center justify-between">
-                <span>Academy Masterclasses</span>
-                <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-white transition-transform group-hover:translate-x-1" />
-              </h4>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+            <img src="/tile_academy.jpg" alt="Academy Masterclasses" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+            <div className="relative z-10 space-y-1">
+              <div className="flex items-center justify-between">
+                <h4 className="text-sm font-black text-white group-hover:text-[#ff5500] transition-colors flex items-center gap-1.5">
+                  <GraduationCap className="w-4 h-4 text-[#ff5500]" />
+                  <span>Academy Masterclasses</span>
+                </h4>
+                <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-transform group-hover:translate-x-1" />
+              </div>
+              <p className="text-[10px] text-slate-200 leading-relaxed line-clamp-2">
                 100% Free video lessons on finishing, fast bowling, knee rehab & spatial vision.
               </p>
             </div>
@@ -369,17 +381,19 @@ export const HomeView: React.FC<HomeViewProps> = ({
           {role === 'admin' && onNavigateToManagement ? (
             <div
               onClick={onNavigateToManagement}
-              className="p-5 rounded-3xl bg-[#0e141c] border border-slate-800 hover:border-indigo-500/60 hover:bg-slate-800/30 cursor-pointer transition-all shadow-lg group space-y-2.5 relative overflow-hidden"
+              className="relative h-44 rounded-3xl overflow-hidden border border-slate-800 hover:border-indigo-500/60 cursor-pointer transition-all shadow-lg group flex flex-col justify-end p-5"
             >
-              <div className="w-10 h-10 rounded-2xl bg-indigo-500/15 text-indigo-400 flex items-center justify-center border border-indigo-500/30 group-hover:scale-110 transition-transform">
-                <CreditCard className="w-5 h-5 stroke-[2.5]" />
-              </div>
-              <div>
-                <h4 className="text-sm font-black text-white group-hover:text-indigo-400 transition-colors flex items-center justify-between">
-                  <span>Admin Management Desk</span>
-                  <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-white transition-transform group-hover:translate-x-1" />
-                </h4>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+              <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=600&q=80" alt="Admin Management Desk" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+              <div className="relative z-10 space-y-1">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-sm font-black text-white group-hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+                    <CreditCard className="w-4 h-4 text-indigo-400" />
+                    <span>Admin Desk</span>
+                  </h4>
+                  <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-transform group-hover:translate-x-1" />
+                </div>
+                <p className="text-[10px] text-slate-200 leading-relaxed line-clamp-2">
                   Squad rosters, player fees, inventory allocation & official club oversight.
                 </p>
               </div>
@@ -387,17 +401,19 @@ export const HomeView: React.FC<HomeViewProps> = ({
           ) : (
             <div
               onClick={onOpenUploadTape}
-              className="p-5 rounded-3xl bg-[#0e141c] border border-slate-800 hover:border-purple-500/60 hover:bg-slate-800/30 cursor-pointer transition-all shadow-lg group space-y-2.5 relative overflow-hidden"
+              className="relative h-44 rounded-3xl overflow-hidden border border-slate-800 hover:border-purple-500/60 cursor-pointer transition-all shadow-lg group flex flex-col justify-end p-5"
             >
-              <div className="w-10 h-10 rounded-2xl bg-purple-500/15 text-purple-400 flex items-center justify-center border border-purple-500/30 group-hover:scale-110 transition-transform">
-                <Upload className="w-5 h-5 stroke-[2.5]" />
-              </div>
-              <div>
-                <h4 className="text-sm font-black text-white group-hover:text-purple-400 transition-colors flex items-center justify-between">
-                  <span>Upload Match Tape</span>
-                  <ChevronRight className="w-4 h-4 text-slate-500 group-hover:text-white transition-transform group-hover:translate-x-1" />
-                </h4>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+              <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=80" alt="Upload Match Tape" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+              <div className="relative z-10 space-y-1">
+                <div className="flex items-center justify-between">
+                  <h4 className="text-sm font-black text-white group-hover:text-purple-400 transition-colors flex items-center gap-1.5">
+                    <Upload className="w-4 h-4 text-purple-400" />
+                    <span>Upload Match Tape</span>
+                  </h4>
+                  <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-transform group-hover:translate-x-1" />
+                </div>
+                <p className="text-[10px] text-slate-200 leading-relaxed line-clamp-2">
                   Upload raw video reels or match recordings for tactical analysis.
                 </p>
               </div>
