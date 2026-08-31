@@ -10,7 +10,7 @@ import {
 // Never fall back to window.location.origin inside a Capacitor APK: that points to the
 // WebView origin, not the Express backend.
 const ENV_API_URL = (typeof import.meta !== 'undefined' && (import.meta as any).env?.VITE_API_URL) as string | undefined;
-const DEFAULT_API_URL = 'https://shivamkumar-lw4a.onrender.com';
+const DEFAULT_API_URL = 'https://shivam-web.onrender.com';
 
 const isLocalBrowser = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && !(window as any).Capacitor;
 export const API_BASE_URL = (ENV_API_URL || (isLocalBrowser ? '' : DEFAULT_API_URL)).replace(/\/+$/, '');
