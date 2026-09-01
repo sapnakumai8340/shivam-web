@@ -308,7 +308,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
               <div className="flex items-center justify-between">
                 <h4 className="text-sm font-black text-white group-hover:text-emerald-400 transition-colors flex items-center gap-1.5">
                   <User className="w-4 h-4 text-emerald-400" />
-                  <span>Athlete Profile</span>
+                  <span>Digital Id</span>
                 </h4>
                 <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-white transition-transform group-hover:translate-x-1" />
               </div>
