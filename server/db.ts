@@ -1643,7 +1643,13 @@ class DatabaseService {
   }
 
   public addStory(story: any): any {
-    this.state.stories.unshift(story);
+    this.state.stories = this.state.stories || [];
+    const existingIndex = this.state.stories.findIndex((s: any) => s.id === story.id || s.playerId === story.playerId);
+    if (existingIndex >= 0) {
+      this.state.stories[existingIndex] = story;
+    } else {
+      this.state.stories.unshift(story);
+    }
     this.save();
     return story;
   }

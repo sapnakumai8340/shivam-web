@@ -43,6 +43,7 @@ interface FeedViewProps {
   onSelectScan: (scan: BiomechanicalScan) => void;
   onViewAllScans: () => void;
   onOpenCreatePost: () => void;
+  onOpenCreateStory?: () => void;
   onOpenPlayerProfile: (athleteId: string) => void;
   onToggleFollow: (athleteId: string) => void;
   onToggleLikePost: (postId: string) => void;
@@ -64,6 +65,7 @@ export const FeedView: React.FC<FeedViewProps> = ({
   onSelectScan,
   onViewAllScans,
   onOpenCreatePost,
+  onOpenCreateStory,
   onOpenPlayerProfile,
   onToggleFollow,
   onToggleLikePost,
@@ -77,13 +79,20 @@ export const FeedView: React.FC<FeedViewProps> = ({
 
   // Feed view mode: 'social' | 'scans'
   const [feedMode, setFeedMode] = useState<'social' | 'scans'>('social');
-  const [socialFilter, setSocialFilter] = useState<'all' | 'reels' | 'players' | 'admins'>('all');
+  const [socialFilter, setSocialFilter] = useState<'all' | 'reels' | 'stories' | 'players' | 'admins'>('all');
   const [commentInputs, setCommentInputs] = useState<Record<string, string>>({});
   const [expandedComments, setExpandedComments] = useState<Record<string, boolean>>({});
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
   const [shareToast, setShareToast] = useState<string | null>(null);
   const [showFollowerDrawer, setShowFollowerDrawer] = useState(false);
   const [selectedJoint, setSelectedJoint] = useState<'knee' | 'hip' | 'ankle'>('knee');
+
+  // Find user's own story in stories list
+  const userStoryIndex = stories.findIndex(
+    s => s.playerId === currentUser.id || s.id === 'story-user' || s.id === `story-${currentUser.id}`
+  );
+  const userStory = userStoryIndex >= 0 ? stories[userStoryIndex] : null;
+  const hasUserStory = !!(userStory && userStory.stories && userStory.stories.length > 0);
 
   // Filter posts (Player & Admin posts & reels)
   const filteredPosts = posts.filter(post => {
@@ -196,52 +205,107 @@ export const FeedView: React.FC<FeedViewProps> = ({
         </div>
       )}
 
-      {/* 1. TOP INSTAGRAM-STYLE STORIES CAROUSEL */}
-      <div className="bg-[#101720] border border-slate-800 rounded-3xl p-3 shadow-xl">
-        <div className="flex items-center justify-between mb-2 px-1">
-          <div className="flex items-center gap-1.5">
-            <Flame className="w-3.5 h-3.5 text-[#ff5500]" />
-            <span className="text-[10px] font-black uppercase text-slate-300 tracking-wider">
-              SQUAD STORIES & TELEMETRY
+      {/* 1. TOP INSTAGRAM-STYLE STORIES CAROUSEL & SEPARATE STORY / POST ACTION BAR */}
+      <div className="bg-[#101720] border border-slate-800 rounded-3xl p-3.5 shadow-xl space-y-2.5">
+        <div className="flex items-center justify-between px-1">
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff5500] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff5500]"></span>
+            </span>
+            <span className="text-[11px] font-black uppercase text-white tracking-wider flex items-center gap-1.5">
+              <Flame className="w-3.5 h-3.5 text-[#ff5500]" />
+              <span>SQUAD STORIES</span>
             </span>
           </div>
-          <button
-            onClick={onOpenCreatePost}
-            className="text-[10px] font-black text-[#ff5500] hover:underline uppercase flex items-center gap-1"
-          >
-            <PlusCircle className="w-3 h-3" />
-            <span>New Post</span>
-          </button>
+
+          {/* SEPARATE ACTIONS FOR STORY & POST */}
+          <div className="flex items-center gap-1.5">
+            <button
+              onClick={() => onOpenCreateStory ? onOpenCreateStory() : onOpenCreatePost()}
+              className="bg-gradient-to-r from-[#ff5500] to-[#ff7700] hover:opacity-90 text-white text-[10px] font-black px-2.5 py-1 rounded-xl uppercase transition-all flex items-center gap-1 shadow-md shadow-orange-500/20"
+            >
+              <PlusCircle className="w-3 h-3" />
+              <span>+ Story</span>
+            </button>
+            <button
+              onClick={onOpenCreatePost}
+              className="bg-[#192433] hover:bg-[#00e5a3] text-slate-300 hover:text-black border border-slate-700 text-[10px] font-black px-2.5 py-1 rounded-xl uppercase transition-all flex items-center gap-1"
+            >
+              <PlusCircle className="w-3 h-3 text-[#00e5a3]" />
+              <span>+ Post</span>
+            </button>
+          </div>
         </div>
 
         {/* Stories Horizontal Scroll */}
-        <div className="flex items-center gap-3 overflow-x-auto no-scrollbar py-1 px-0.5">
-          {/* User Add Story / Post Circle */}
-          <div
-            onClick={onOpenCreatePost}
-            className="flex flex-col items-center gap-1 cursor-pointer shrink-0 group"
-          >
-            <div className="relative w-14 h-14 rounded-full p-0.5 border-2 border-dashed border-[#ff5500]/80 group-hover:border-[#ff5500] transition-colors">
-              <div className="w-full h-full rounded-full overflow-hidden bg-slate-900">
-                <img
-                  src={currentUser.avatar}
-                  alt={currentUser.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                  referrerPolicy="no-referrer"
-                />
+        <div className="flex items-center gap-3.5 overflow-x-auto no-scrollbar py-1 px-0.5">
+          
+          {/* USER STORY CIRCLE */}
+          {hasUserStory && userStory ? (
+            <div className="flex flex-col items-center gap-1 cursor-pointer shrink-0 group relative">
+              <div
+                onClick={() => onOpenStory(userStoryIndex)}
+                className="relative w-15 h-15 rounded-full p-[2.5px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] group-hover:scale-105 transition-transform shadow-lg shadow-pink-500/20"
+              >
+                <div className="w-full h-full rounded-full border-2 border-[#101720] overflow-hidden bg-slate-900">
+                  <img
+                    src={currentUser.avatar}
+                    alt={currentUser.name}
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                {/* Quick Add Slide Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (onOpenCreateStory) onOpenCreateStory();
+                    else onOpenCreatePost();
+                  }}
+                  title="Add another story slide"
+                  className="absolute bottom-0 right-0 bg-[#00e5a3] hover:bg-white text-black p-0.5 rounded-full shadow-md transition-colors"
+                >
+                  <PlusCircle className="w-3.5 h-3.5" />
+                </button>
               </div>
-              <span className="absolute bottom-0 right-0 bg-[#ff5500] text-white p-0.5 rounded-full shadow-md">
-                <PlusCircle className="w-3.5 h-3.5" />
+              <div className="text-center">
+                <span className="text-[10px] font-bold text-white group-hover:text-[#ff5500] truncate max-w-[64px] block flex items-center justify-center gap-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00e5a3] inline-block" />
+                  <span>Your Story</span>
+                </span>
+                <span className="text-[8px] text-[#00e5a3] font-mono block">
+                  {userStory.stories.length} {userStory.stories.length === 1 ? 'slide' : 'slides'}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div
+              onClick={() => onOpenCreateStory ? onOpenCreateStory() : onOpenCreatePost()}
+              className="flex flex-col items-center gap-1 cursor-pointer shrink-0 group"
+            >
+              <div className="relative w-15 h-15 rounded-full p-0.5 border-2 border-dashed border-[#ff5500]/80 group-hover:border-[#ff5500] transition-colors">
+                <div className="w-full h-full rounded-full overflow-hidden bg-slate-900">
+                  <img
+                    src={currentUser.avatar}
+                    alt={currentUser.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform opacity-80 group-hover:opacity-100"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                <span className="absolute bottom-0 right-0 bg-[#ff5500] text-white p-0.5 rounded-full shadow-md">
+                  <PlusCircle className="w-3.5 h-3.5" />
+                </span>
+              </div>
+              <span className="text-[10px] font-bold text-slate-300 group-hover:text-white truncate max-w-[62px]">
+                Your Story
               </span>
             </div>
-            <span className="text-[10px] font-bold text-slate-300 group-hover:text-white truncate max-w-[60px]">
-              Your Story
-            </span>
-          </div>
+          )}
 
-          {/* Other Players Stories */}
+          {/* OTHER PLAYERS STORIES */}
           {stories.map((story, idx) => {
-            if (story.playerId === currentUser.id && idx === 0) return null;
+            if (idx === userStoryIndex) return null;
             const latestStory = story.stories[0];
             const timeAgo = formatRelativeTime(latestStory?.createdAt || latestStory?.timestamp);
 
@@ -251,10 +315,10 @@ export const FeedView: React.FC<FeedViewProps> = ({
                 onClick={() => onOpenStory(idx)}
                 className="flex flex-col items-center gap-1 cursor-pointer shrink-0 group"
               >
-                <div className={`relative w-14 h-14 rounded-full p-0.5 transition-transform group-hover:scale-105 ${
+                <div className={`relative w-15 h-15 rounded-full p-[2.5px] transition-transform group-hover:scale-105 ${
                   story.hasUnseen
-                    ? 'bg-gradient-to-tr from-[#ff5500] via-[#ffaa00] to-[#00e5a3]'
-                    : 'border-2 border-slate-700'
+                    ? 'bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] shadow-md shadow-pink-500/20'
+                    : 'border-2 border-slate-700 bg-slate-800'
                 }`}>
                   <div className="w-full h-full rounded-full border-2 border-[#101720] overflow-hidden bg-slate-900">
                     <img
@@ -266,7 +330,7 @@ export const FeedView: React.FC<FeedViewProps> = ({
                   </div>
                 </div>
                 <div className="text-center">
-                  <span className="text-[10px] font-medium text-slate-300 group-hover:text-white truncate max-w-[62px] block">
+                  <span className="text-[10px] font-medium text-slate-300 group-hover:text-white truncate max-w-[64px] block">
                     {story.playerName.split(' ')[0]}
                   </span>
                   <span className="text-[8px] text-slate-500 font-mono block">
@@ -310,7 +374,7 @@ export const FeedView: React.FC<FeedViewProps> = ({
       {feedMode === 'social' && (
         <div className="space-y-4">
           
-          {/* Sub-Filters: All | Reels | Players | Coaches/Admin */}
+          {/* Sub-Filters: All | Reels | Stories | Players | Coaches */}
           <div className="flex items-center justify-between gap-1 overflow-x-auto no-scrollbar pb-1">
             <div className="flex bg-[#101720] p-0.5 rounded-xl border border-slate-800 shrink-0">
               <button
@@ -321,7 +385,7 @@ export const FeedView: React.FC<FeedViewProps> = ({
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                All Feed ({posts.length})
+                All Posts ({posts.length})
               </button>
               <button
                 onClick={() => setSocialFilter('reels')}
@@ -333,6 +397,17 @@ export const FeedView: React.FC<FeedViewProps> = ({
               >
                 <Film className="w-2.5 h-2.5 text-[#00e5a3]" />
                 <span>Reels 🎬</span>
+              </button>
+              <button
+                onClick={() => setSocialFilter('stories')}
+                className={`px-2.5 py-1 text-[10px] font-black uppercase rounded-lg transition-all flex items-center gap-1 ${
+                  socialFilter === 'stories'
+                    ? 'bg-gradient-to-r from-[#ff5500] to-[#f09433] text-white shadow-md'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <Sparkles className="w-2.5 h-2.5 text-yellow-300" />
+                <span>Stories ({stories.length}) 📸</span>
               </button>
               <button
                 onClick={() => setSocialFilter('players')}
@@ -358,12 +433,83 @@ export const FeedView: React.FC<FeedViewProps> = ({
 
             <button
               onClick={onOpenCreatePost}
-              className="bg-[#121922] hover:bg-[#ff5500] border border-slate-700 hover:border-[#ff5500] text-white text-[10px] font-black px-2.5 py-1 rounded-xl uppercase transition-all flex items-center gap-1 shadow-md shrink-0"
+              className="bg-[#121922] hover:bg-[#00e5a3] hover:text-black border border-slate-700 hover:border-[#00e5a3] text-white text-[10px] font-black px-2.5 py-1 rounded-xl uppercase transition-all flex items-center gap-1 shadow-md shrink-0"
             >
-              <PlusCircle className="w-3 h-3 text-[#ff5500]" />
-              <span>New Post / Reel</span>
+              <PlusCircle className="w-3 h-3 text-[#00e5a3]" />
+              <span>New Post</span>
             </button>
           </div>
+
+          {/* DEDICATED STORIES GALLERY VIEW WHEN 'stories' FILTER IS SELECTED */}
+          {socialFilter === 'stories' && (
+            <div className="bg-[#101720] border border-slate-800 rounded-3xl p-4 space-y-3 shadow-xl">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-[#ff5500]" />
+                  <h3 className="text-xs font-black text-white uppercase tracking-wider">
+                    Squad Stories Archive ({stories.length})
+                  </h3>
+                </div>
+                <button
+                  onClick={() => onOpenCreateStory ? onOpenCreateStory() : onOpenCreatePost()}
+                  className="text-[10px] font-black text-[#ff5500] hover:underline uppercase flex items-center gap-1"
+                >
+                  <PlusCircle className="w-3 h-3" />
+                  <span>Add Story</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {stories.map((storyItem, sIdx) => {
+                  const firstSlide = storyItem.stories[0];
+                  const timeStr = formatRelativeTime(firstSlide?.createdAt || firstSlide?.timestamp);
+                  return (
+                    <div
+                      key={storyItem.id}
+                      onClick={() => onOpenStory(sIdx)}
+                      className="relative rounded-2xl overflow-hidden aspect-[9/16] bg-slate-900 border-2 border-slate-800 hover:border-[#ff5500] cursor-pointer group transition-all shadow-lg"
+                    >
+                      <img
+                        src={firstSlide?.mediaUrl}
+                        alt={storyItem.playerName}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+                      
+                      {/* Top Author Pill */}
+                      <div className="absolute top-2 left-2 right-2 flex items-center gap-1.5">
+                        <img
+                          src={storyItem.playerAvatar}
+                          alt={storyItem.playerName}
+                          className="w-5 h-5 rounded-full border border-white/80 object-cover"
+                          referrerPolicy="no-referrer"
+                        />
+                        <span className="text-[10px] font-bold text-white truncate drop-shadow">
+                          {storyItem.playerName.split(' ')[0]}
+                        </span>
+                      </div>
+
+                      {/* Bottom Info & Telemetry */}
+                      <div className="absolute bottom-2.5 left-2.5 right-2.5 space-y-1">
+                        {firstSlide?.telemetrySnippet && (
+                          <span className="text-[8px] bg-[#ff5500] text-white px-1.5 py-0.5 rounded-full font-black block truncate">
+                            {firstSlide.telemetrySnippet}
+                          </span>
+                        )}
+                        <p className="text-[10px] font-bold text-white leading-tight truncate">
+                          {firstSlide?.caption || 'Squad Story'}
+                        </p>
+                        <span className="text-[8px] text-slate-400 font-mono block">
+                          {timeStr} • {storyItem.stories.length} {storyItem.stories.length === 1 ? 'slide' : 'slides'}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Social Posts Stream (Instagram Archetype with Real-Time Timestamps) */}
           <div className="space-y-4">

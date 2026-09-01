@@ -292,6 +292,7 @@ export default function App() {
 
   // Social Modals
   const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
+  const [createPostModalInitialTab, setCreatePostModalInitialTab] = useState<'story' | 'post'>('post');
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
   const [activeStoryIndex, setActiveStoryIndex] = useState<number | null>(null);
 
@@ -514,6 +515,82 @@ export default function App() {
     setAthlete(nextAthlete);
     syncState({ posts: nextPosts, athlete: nextAthlete });
     socketService.createPost(newPost);
+  };
+
+  const handleCreateStory = (storyItem: {
+    mediaUrl: string;
+    mediaType: 'photo' | 'video';
+    caption?: string;
+    telemetrySnippet?: string;
+  }) => {
+    const now = Date.now();
+    const newSlide = {
+      id: `slide-${now}-${Math.floor(Math.random() * 1000)}`,
+      mediaUrl: storyItem.mediaUrl,
+      mediaType: storyItem.mediaType,
+      caption: storyItem.caption,
+      telemetrySnippet: storyItem.telemetrySnippet,
+      timestamp: 'Just now',
+      createdAt: now,
+    };
+
+    const userIndex = stories.findIndex(
+      (s) => s.playerId === athlete.id || s.id === 'story-user' || s.id === `story-${athlete.id}`
+    );
+
+    let nextStories: PlayerStory[];
+    let updatedStory: PlayerStory;
+
+    if (userIndex >= 0) {
+      const existing = stories[userIndex];
+      updatedStory = {
+        ...existing,
+        playerId: athlete.id,
+        playerName: athlete.name,
+        playerAvatar: athlete.avatar,
+        playerHandle: athlete.handle || `@${athlete.name.toLowerCase().replace(/\s+/g, '')}_${athlete.number}`,
+        hasUnseen: true,
+        stories: [newSlide, ...existing.stories],
+      };
+      nextStories = [...stories];
+      nextStories[userIndex] = updatedStory;
+    } else {
+      updatedStory = {
+        id: `story-${athlete.id}`,
+        playerId: athlete.id,
+        playerName: athlete.name,
+        playerAvatar: athlete.avatar,
+        playerHandle: athlete.handle || `@${athlete.name.toLowerCase().replace(/\s+/g, '')}_${athlete.number}`,
+        hasUnseen: true,
+        stories: [newSlide],
+      };
+      nextStories = [updatedStory, ...stories];
+    }
+
+    setStories(nextStories);
+    syncState({ stories: nextStories });
+    socketService.createStory(updatedStory);
+  };
+
+  const handleDeleteStorySlide = (storyId: string, slideIndex: number) => {
+    const targetIdx = stories.findIndex((s) => s.id === storyId || s.playerId === athlete.id);
+    if (targetIdx < 0) return;
+
+    const targetStory = stories[targetIdx];
+    const updatedSlides = targetStory.stories.filter((_, idx) => idx !== slideIndex);
+
+    let nextStories: PlayerStory[];
+    if (updatedSlides.length === 0) {
+      nextStories = stories.filter((_, idx) => idx !== targetIdx);
+      setActiveStoryIndex(null);
+    } else {
+      const updatedStory = { ...targetStory, stories: updatedSlides };
+      nextStories = [...stories];
+      nextStories[targetIdx] = updatedStory;
+    }
+
+    setStories(nextStories);
+    syncState({ stories: nextStories });
   };
 
   const handleDeletePost = (postId: string) => {
@@ -887,7 +964,14 @@ export default function App() {
             onStartScan={() => setIsScanOpen(true)}
             onSelectScan={(scan) => setSelectedScanDetail(scan)}
             onViewAllScans={() => setActiveScreen('profile')}
-            onOpenCreatePost={() => setIsCreatePostOpen(true)}
+            onOpenCreatePost={() => {
+              setCreatePostModalInitialTab('post');
+              setIsCreatePostOpen(true);
+            }}
+            onOpenCreateStory={() => {
+              setCreatePostModalInitialTab('story');
+              setIsCreatePostOpen(true);
+            }}
             onOpenPlayerProfile={(playerId) => setSelectedPlayerId(playerId)}
             onToggleFollow={handleToggleFollow}
             onToggleLikePost={handleToggleLikePost}
@@ -1071,12 +1155,14 @@ export default function App() {
         onSaveAdminPerformance={handleSaveAdminPerformance}
       />
 
-      {/* 10. Create Post / Video Reel Modal */}
+      {/* 10. Create Post / Video Reel / Story Modal */}
       <CreatePostModal
         isOpen={isCreatePostOpen}
         currentUser={athlete}
+        initialTab={createPostModalInitialTab}
         onClose={() => setIsCreatePostOpen(false)}
         onCreatePost={handleCreatePost}
+        onCreateStory={handleCreateStory}
       />
 
       {/* 11. Admin Leaderboard Control */}
@@ -1105,7 +1191,14 @@ export default function App() {
           isOpen={activeStoryIndex !== null}
           stories={stories}
           initialIndex={activeStoryIndex}
+          currentUser={athlete}
           onClose={() => setActiveStoryIndex(null)}
+          onDeleteSlide={handleDeleteStorySlide}
+          onOpenCreateStory={() => {
+            setActiveStoryIndex(null);
+            setCreatePostModalInitialTab('story');
+            setIsCreatePostOpen(true);
+          }}
         />
       )}
 
