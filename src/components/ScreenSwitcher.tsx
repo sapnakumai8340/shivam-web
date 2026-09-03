@@ -35,6 +35,19 @@ export const ScreenSwitcher: React.FC<ScreenSwitcherProps> = ({
         </div>
 
         <div className="flex items-center gap-1 shrink-0">
+          {/* Splash Page */}
+          <button
+            onClick={() => onSelectScreen('splash')}
+            className={`px-2 py-0.5 rounded-lg text-[10px] font-extrabold uppercase tracking-wider transition-all flex items-center gap-1 ${
+              currentScreen === 'splash'
+                ? 'bg-[#ff5500] text-white shadow-[0_0_10px_rgba(255,85,0,0.5)]'
+                : 'bg-slate-900 text-amber-400 hover:text-white border border-amber-500/40'
+            }`}
+          >
+            <Sparkles className="w-2.5 h-2.5 text-amber-400" />
+            <span>Splash</span>
+          </button>
+
           {/* Home View */}
           <button
             onClick={() => onSelectScreen('home')}

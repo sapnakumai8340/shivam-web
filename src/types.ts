@@ -1,6 +1,6 @@
 export type UserRole = 'player' | 'coach' | 'admin';
 
-export type ActiveScreen = 'home' | 'feed' | 'performance' | 'profile' | 'schedule' | 'records' | 'chatbot' | 'management' | 'courses' | 'video-review';
+export type ActiveScreen = 'home' | 'feed' | 'performance' | 'profile' | 'schedule' | 'records' | 'chatbot' | 'management' | 'courses' | 'video-review' | 'splash';
 
 export type FeePaymentStatus = 'PAID' | 'PENDING' | 'OVERDUE' | 'PARTIAL';
 

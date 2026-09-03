@@ -15,6 +15,7 @@ import { RecordsView } from './components/RecordsView';
 import { ChatbotView } from './components/ChatbotView';
 import { ManagementView } from './components/ManagementView';
 import { CoursesView } from './components/CoursesView';
+import { SplashView } from './components/SplashView';
 import { ScreenSwitcher } from './components/ScreenSwitcher';
 
 // Modals
@@ -42,7 +43,7 @@ export default function App() {
   const [role, setRole] = useState<UserRole>('player');
   const [theme, setTheme] = useState<'dark' | 'light'>(() => (localStorage.getItem('kheltantra_theme') as 'dark' | 'light') || 'dark');
   useEffect(() => { document.documentElement.dataset.theme = theme; localStorage.setItem('kheltantra_theme', theme); }, [theme]);
-  const [activeScreen, setActiveScreen] = useState<ActiveScreen>('home');
+  const [activeScreen, setActiveScreen] = useState<ActiveScreen>('splash');
 
   // Active Athlete Data State
   const [athlete, setAthlete] = useState<AthleteProfile>(initialData.athlete);
@@ -274,8 +275,8 @@ export default function App() {
     }
   }, [athlete]);
 
-  // Authentication Gate: show login/signup page until user is authenticated
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // Authentication Gate
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   // Modals Visibility State
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -867,45 +868,36 @@ export default function App() {
 
   const selectedAthleteForProfile = selectedPlayerId ? communityAthletes[selectedPlayerId] || athlete : null;
 
-  // If not authenticated, show full-page Login/Signup screen
-  if (!isAuthenticated) {
-    return (
-      <LoginModal
-        isOpen={true}
-        onClose={() => { }} // No close allowed on auth gate
-        onLoginSuccess={handleLoginSuccess}
-        initialRole={role}
-        initialMode="signup"
-        isAuthGate={true}
-      />
-    );
-  }
+
 
   return (
     <div className="min-h-screen bg-[#070b0f] text-slate-100 font-sans selection:bg-[#ff5500] selection:text-white flex flex-col justify-between">
-      {/* Top Quick Navigation Bar */}
-      <ScreenSwitcher
-        currentScreen={activeScreen}
-        currentRole={role}
-        onSelectScreen={setActiveScreen}
-        onToggleRole={handleToggleRole}
-        onOpenLogin={() => setIsLoginOpen(true)}
-        onOpenScan={() => setIsScanOpen(true)}
-        onOpenReport={() => setIsFullReportOpen(true)}
-        onOpenUploadTape={() => setIsUploadTapeOpen(true)}
-        onOpenPlayerScanner={() => setIsPlayerScannerOpen(true)}
-      />
+      {/* Top Quick Navigation Bar & Global Header (Hidden on Splash Page) */}
+      {activeScreen !== 'splash' && (
+        <>
+          <ScreenSwitcher
+            currentScreen={activeScreen}
+            currentRole={role}
+            onSelectScreen={setActiveScreen}
+            onToggleRole={handleToggleRole}
+            onOpenLogin={() => setIsLoginOpen(true)}
+            onOpenScan={() => setIsScanOpen(true)}
+            onOpenReport={() => setIsFullReportOpen(true)}
+            onOpenUploadTape={() => setIsUploadTapeOpen(true)}
+            onOpenPlayerScanner={() => setIsPlayerScannerOpen(true)}
+          />
 
-      {/* Global Header */}
-      <Header
-        role={role}
-        athlete={athlete}
-        onToggleRole={handleToggleRole}
-        onOpenLogin={() => setIsLoginOpen(true)}
-        onSearchPlayer={handleSearchPlayer}
-        theme={theme}
-        onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
-      />
+          <Header
+            role={role}
+            athlete={athlete}
+            onToggleRole={handleToggleRole}
+            onOpenLogin={() => setIsLoginOpen(true)}
+            onSearchPlayer={handleSearchPlayer}
+            theme={theme}
+            onToggleTheme={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}
+          />
+        </>
+      )}
 
       {/* Main Content View Switcher */}
       <main className="flex-1 w-full">
@@ -931,6 +923,7 @@ export default function App() {
             onLoginSuccess={handleLoginSuccess}
             communityAthletes={communityAthletes}
             onOpenLeaderboardAdmin={() => setIsLeaderboardAdminOpen(true)}
+            onNavigateToSplash={() => setActiveScreen('splash')}
           />
         )}
 
@@ -1061,6 +1054,15 @@ export default function App() {
           <VideoReviewView role={role} athleteId={athlete.id} />
         )}
 
+        {activeScreen === 'splash' && (
+          <SplashView
+            currentRole={role}
+            onEnterApp={() => setActiveScreen('home')}
+            onSelectRole={(newRole) => setRole(newRole)}
+            onOpenLogin={() => setIsLoginOpen(true)}
+          />
+        )}
+
         {activeScreen === 'chatbot' && (
           <ChatbotView
             athlete={athlete}
@@ -1079,11 +1081,13 @@ export default function App() {
       </main>
 
       {/* Bottom Navigation Bar */}
-      <BottomNav
-        role={role}
-        activeScreen={activeScreen}
-        onSelectScreen={setActiveScreen}
-      />
+      {activeScreen !== 'splash' && (
+        <BottomNav
+          role={role}
+          activeScreen={activeScreen}
+          onSelectScreen={setActiveScreen}
+        />
+      )}
 
       {/* --- Interactive Modals --- */}
 

@@ -77,7 +77,20 @@
     }
   ],
   "likes": [],
-  "comments": [],
+  "comments": [
+    {
+      "id": "comm-1788261277498",
+      "postId": "post-1788245321636-650",
+      "authorId": "USR-8040",
+      "authorName": "SHIVAM",
+      "authorAvatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=256&q=80",
+      "authorHandle": "@s",
+      "text": "wefn",
+      "createdAt": 1788261277498,
+      "exactUploadTime": "16:44",
+      "likesCount": 0
+    }
+  ],
   "notifications": [
     {
       "id": "notif-1788173799424-akptk",

@@ -56,6 +56,7 @@ interface HomeViewProps {
   onLoginSuccess?: (role: UserRole, email: string, authData?: UserAuthData) => void;
   communityAthletes?: Record<string, AthleteProfile>;
   onOpenLeaderboardAdmin?: () => void;
+  onNavigateToSplash?: () => void;
 }
 
 export const HomeView: React.FC<HomeViewProps> = ({
@@ -73,6 +74,7 @@ export const HomeView: React.FC<HomeViewProps> = ({
   onOpenEditProfile,
   communityAthletes = {},
   onOpenLeaderboardAdmin,
+  onNavigateToSplash,
 }) => {
   const [slide, setSlide] = useState(0);
 
@@ -101,6 +103,15 @@ export const HomeView: React.FC<HomeViewProps> = ({
               <span className="text-[9px] font-black uppercase tracking-[0.25em] text-[#ff7733]">KHELTANTRA SPORTS SPOTLIGHT</span>
               <h2 className="text-2xl sm:text-4xl font-black italic uppercase text-white mt-1">{item.title}</h2>
               <p className="text-xs sm:text-sm text-slate-200 mt-2">{item.text}</p>
+              {onNavigateToSplash && (
+                <button
+                  onClick={onNavigateToSplash}
+                  className="mt-3 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#ff5500] to-amber-500 text-black text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-lg shadow-orange-500/20 hover:brightness-110 transition-all"
+                >
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>View Splash Page</span>
+                </button>
+              )}
             </div>
           </div>
         ))}
