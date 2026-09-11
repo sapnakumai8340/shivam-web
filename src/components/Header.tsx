@@ -72,7 +72,7 @@ export const Header: React.FC<HeaderProps> = ({ role, athlete, onToggleRole, onO
     <header className="sticky top-0 z-40 w-full bg-[#0b0f14]/95 backdrop-blur-md border-b border-slate-800/80 px-4 py-2.5">
       <div className="max-w-md mx-auto flex flex-col gap-2.5">
         <div className="flex items-center justify-between">
-          {/* Left: Avatar & Role Switcher */}
+          {/* Left: Avatar & Role Badge */}
           <div className="flex items-center gap-2">
             <button
               onClick={() => {
@@ -82,40 +82,61 @@ export const Header: React.FC<HeaderProps> = ({ role, athlete, onToggleRole, onO
                   onToggleRole('player');
                 }
               }}
-              title={role === 'player' ? "Sign in as Coach / Admin to access Admin features" : "Switch to Athlete View"}
-              className="relative group focus:outline-none"
+              title={role === 'player' ? "Click to login as Coach / Admin" : "Click to switch to Player View"}
+              className="flex items-center gap-2 group focus:outline-none"
             >
-              <div className="w-9 h-9 rounded-full border-2 border-[#ff5500] p-0.5 overflow-hidden bg-slate-900 group-hover:scale-105 transition-transform">
-                <img
-                  src={
-                    athlete?.avatar ||
-                    (role === 'player'
-                      ? 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=128&q=80'
-                      : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=128&q=80')
-                  }
-                  alt={athlete?.name || "Profile"}
-                  className="w-full h-full rounded-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-              <span className={`absolute -bottom-1 -right-1 text-[8px] font-black px-1 rounded text-white uppercase tracking-wider ${role === 'admin' ? 'bg-indigo-600' : role === 'coach' ? 'bg-blue-600' : 'bg-[#ff5500]'
+              <div className="relative">
+                <div className={`w-9 h-9 rounded-full p-0.5 overflow-hidden bg-slate-900 group-hover:scale-105 transition-transform ${
+                  role === 'admin' 
+                    ? 'border-2 border-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.4)]' 
+                    : role === 'coach' 
+                    ? 'border-2 border-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.4)]' 
+                    : 'border-2 border-[#ff5500] shadow-[0_0_10px_rgba(255,85,0,0.4)]'
                 }`}>
-                {role === 'player' ? 'ATH' : role === 'coach' ? 'COA' : 'ADM'}
+                  <img
+                    src={
+                      athlete?.avatar ||
+                      (role === 'player'
+                        ? 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=128&q=80'
+                        : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=128&q=80')
+                    }
+                    alt={athlete?.name || "Profile"}
+                    className="w-full h-full rounded-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+                {/* Live Connection Pulse Dot */}
+                <span className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full ring-2 ring-[#0b0f14] ${
+                  isSocketConnected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
+                }`} />
+              </div>
+
+              {/* Role Sign Indicator */}
+              <span className={`text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full flex items-center gap-1 border transition-all ${
+                role === 'admin'
+                  ? 'bg-indigo-500/15 border-indigo-500/40 text-indigo-300'
+                  : role === 'coach'
+                  ? 'bg-blue-500/15 border-blue-500/40 text-blue-300'
+                  : 'bg-[#ff5500]/15 border-[#ff5500]/40 text-[#ff7722]'
+              }`}>
+                {role === 'admin' ? (
+                  <>
+                    <ShieldCheck className="w-3 h-3 text-indigo-400" />
+                    <span>ADMIN</span>
+                  </>
+                ) : role === 'coach' ? (
+                  <>
+                    <ShieldCheck className="w-3 h-3 text-blue-400" />
+                    <span>COACH</span>
+                  </>
+                ) : (
+                  <>
+                    <UserCheck className="w-3 h-3 text-[#ff5500]" />
+                    <span>PLAYER</span>
+                  </>
+                )}
               </span>
             </button>
-
-            {/* Socket.IO Real-time Connection Indicator Pill */}
-            <div
-              className={`hidden sm:flex items-center gap-1 px-2 py-0.5 rounded-full border text-[9px] font-black tracking-wider transition-all ${isSocketConnected
-                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                  : 'bg-amber-500/10 border-amber-500/30 text-amber-400'
-                }`}
-              title={isSocketConnected ? `Socket.IO Live Sync • ${onlineCount} active peer(s)` : 'Connecting to Socket.IO...'}
-            >
-              <span className={`w-1.5 h-1.5 rounded-full ${isSocketConnected ? 'bg-emerald-400 animate-pulse shadow-[0_0_6px_#10b981]' : 'bg-amber-400'}`} />
-              <Radio className="w-2.5 h-2.5" />
-              <span>{isSocketConnected ? 'LIVE IO' : 'CONNECTING'}</span>
-            </div>
           </div>
 
           {/* Center: Brand Title */}

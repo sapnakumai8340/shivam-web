@@ -519,3 +519,26 @@ export interface LoginActivity {
   role: string;
 }
 
+export interface AcademyExpenseRecord {
+  id: string;
+  category: 'Ground Rent' | 'Coach Salary' | 'Equipment' | 'Refreshments' | 'Tournament Fee' | 'Medical Supplies' | 'Other';
+  description: string;
+  amount: number;
+  date: string; // e.g. "11 Sep 2026"
+  paidTo: string;
+  paymentMethod: 'UPI' | 'Cash' | 'Bank Transfer';
+  receiptRef?: string;
+}
+
+export interface CoachSessionNote {
+  id: string;
+  date: string;
+  title: string;
+  focusArea: string; // e.g. "Counter Attack & Finishing"
+  coachName: string;
+  attendanceCount: number;
+  keyObservations: string;
+  nextDrillsPlanned: string;
+}
+
+

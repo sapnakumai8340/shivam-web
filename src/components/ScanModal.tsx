@@ -237,7 +237,7 @@ export const ScanModal: React.FC<ScanModalProps> = ({ isOpen, onClose, onScanCom
           ctx.fillStyle = j.id.includes('knee') || j.id.includes('hip') ? '#00e5a3' : '#ffffff';
           ctx.fill();
           ctx.lineWidth = 1.5;
-          ctx.strokeStyle = '#0b0f14';
+          ctx.strokeStyle = '#e5e7ef';
           ctx.stroke();
         });
       }
