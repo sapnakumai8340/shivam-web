@@ -670,8 +670,8 @@ class DatabaseService {
         rating: 4.9,
         enrolledCount: 142,
         badge: 'MASTERCLASS',
-        createdAt: 1770000000000,
-        updatedAt: 1770000000000,
+        createdAt: 1780000000000,
+        updatedAt: 1780000000000,
         chapters: [
           {
             id: 'ch-1',
@@ -759,8 +759,8 @@ class DatabaseService {
         rating: 4.95,
         enrolledCount: 98,
         badge: 'POPULAR',
-        createdAt: 1770000000000,
-        updatedAt: 1770000000000,
+        createdAt: 1780000000000,
+        updatedAt: 1780000000000,
         chapters: [
           {
             id: 'ch-crk-1',
@@ -838,8 +838,8 @@ class DatabaseService {
         rating: 4.98,
         enrolledCount: 184,
         badge: 'ESSENTIAL',
-        createdAt: 1770000000000,
-        updatedAt: 1770000000000,
+        createdAt: 1780000000000,
+        updatedAt: 1780000000000,
         chapters: [
           {
             id: 'ch-rhb-1',
@@ -899,8 +899,8 @@ class DatabaseService {
         rating: 4.88,
         enrolledCount: 76,
         badge: 'TACTICAL',
-        createdAt: 1770000000000,
-        updatedAt: 1770000000000,
+        createdAt: 1780000000000,
+        updatedAt: 1780000000000,
         chapters: [
           {
             id: 'ch-bsk-1',

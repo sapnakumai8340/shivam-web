@@ -1,6 +1,6 @@
 export type UserRole = 'player' | 'coach' | 'admin';
 
-export type ActiveScreen = 'home' | 'feed' | 'performance' | 'profile' | 'schedule' | 'records' | 'chatbot' | 'management' | 'courses' | 'video-review' | 'splash';
+export type ActiveScreen = 'home' | 'feed' | 'performance' | 'profile' | 'schedule' | 'records' | 'chatbot' | 'management' | 'courses' | 'video-review';
 
 export type FeePaymentStatus = 'PAID' | 'PENDING' | 'OVERDUE' | 'PARTIAL';
 
@@ -521,24 +521,30 @@ export interface LoginActivity {
 
 export interface AcademyExpenseRecord {
   id: string;
-  category: 'Ground Rent' | 'Coach Salary' | 'Equipment' | 'Refreshments' | 'Tournament Fee' | 'Medical Supplies' | 'Other';
-  description: string;
+  category: 'Ground Rent' | 'Equipment' | 'Staff Salary' | 'Tournament Fee' | 'Medical' | 'Utilities' | 'Other';
   amount: number;
-  date: string; // e.g. "11 Sep 2026"
-  paidTo: string;
-  paymentMethod: 'UPI' | 'Cash' | 'Bank Transfer';
+  date: string;
+  description: string;
+  receiptNo?: string;
   receiptRef?: string;
+  approvedBy?: string;
+  paidTo?: string;
+  paymentMethod?: string;
 }
 
 export interface CoachSessionNote {
   id: string;
+  coachId?: string;
+  coachName?: string;
   date: string;
-  title: string;
-  focusArea: string; // e.g. "Counter Attack & Finishing"
-  coachName: string;
-  attendanceCount: number;
-  keyObservations: string;
-  nextDrillsPlanned: string;
+  sessionTitle?: string;
+  title?: string;
+  attendanceCount?: number;
+  keyObservations?: string;
+  tacticalFocus?: string;
+  focusArea?: string;
+  nextDrillsPlanned?: string;
+  playerHighlights?: string;
 }
 
 

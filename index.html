@@ -1,14 +1,20 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shivam</title>
+    <title>sapna</title>
     <meta name="description" content="An application built" />
     <meta property="og:title" content="My APP" />
     <meta property="og:description" content="An application built ." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      try {
+        localStorage.setItem('kheltantra_theme', 'light');
+        document.documentElement.dataset.theme = 'light';
+      } catch(e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

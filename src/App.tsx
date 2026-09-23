@@ -41,7 +41,7 @@ export default function App() {
 
   // Navigation & Role State (Default to Home screen)
   const [role, setRole] = useState<UserRole>('player');
-  const [theme, setTheme] = useState<'dark' | 'light'>(() => (localStorage.getItem('kheltantra_theme') as 'dark' | 'light') || 'dark');
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => (localStorage.getItem('kheltantra_theme') as 'dark' | 'light') || 'light');
   useEffect(() => { document.documentElement.dataset.theme = theme; localStorage.setItem('kheltantra_theme', theme); }, [theme]);
   const [activeScreen, setActiveScreen] = useState<ActiveScreen>('splash');
 
